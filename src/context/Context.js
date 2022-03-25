@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker'
 import { cartReducer } from './Reducer'
 export const Cart = createContext()
 const Context = ({ children }) => {
+  faker.seed(99)
   const products = [...Array(20)].map(() => ({
     id: faker.datatype.uuid(),
     name: faker.commerce.productName(),
@@ -13,6 +14,7 @@ const Context = ({ children }) => {
     ratings: faker.random.arrayElement([1, 2, 3, 4, 5])
   }))
 
+  console.log(products)
   const [state, dispatch] = useReducer(cartReducer, {
     products: products,
     cart: []

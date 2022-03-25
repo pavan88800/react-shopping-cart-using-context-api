@@ -1,13 +1,21 @@
 import { React, useContext } from 'react'
 import { Cart } from '../context/Context'
+import Filters from './Filters'
+import SingleProducts from './SingleProducts'
+import './style.css'
 const Home = () => {
   const {
-    state: { prodcuts }
+    state: { products }
   } = useContext(Cart)
 
   return (
-    <div>
-      <h4>Home</h4>
+    <div className='home'>
+      <Filters />
+      <div className='productContainer'>
+        {products.map(product => (
+          <SingleProducts product={product} key={product.id} />
+        ))}
+      </div>
     </div>
   )
 }

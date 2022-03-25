@@ -1,8 +1,23 @@
-import React from 'react'
-import { Container, Navbar, Nav, Form, Dropdown, Badge } from 'react-bootstrap'
+import React, { useContext } from 'react'
+import {
+  Container,
+  Navbar,
+  Nav,
+  Form,
+  Dropdown,
+  Badge,
+  Button
+} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
+import { Cart } from '../context/Context'
+import { AiFillDelete } from 'react-icons/ai'
 const NavList = () => {
+  const {
+    state: { cart },
+    dispatch
+  } = useContext(Cart)
+
   return (
     <>
       <Navbar bg='dark' variant='dark' style={{ height: 80 }}>
@@ -23,11 +38,44 @@ const NavList = () => {
               <Dropdown.Toggle variant='success'>
                 <FaShoppingCart color='white' fontSize='25px' />
 
-                <Badge style={{ marginLeft: '5px' }}>{10}</Badge>
+                <Badge style={{ marginLeft: '5px' }}>{cart.length}</Badge>
               </Dropdown.Toggle>
 
               <Dropdown.Menu style={{ minWidth: 270 }}>
-                <span style={{ padding: 5 }}>Cart is Empty !</span>
+                {cart.length > 0 ? (
+                  <>
+                    {cart.map(prod => (
+                      <span className='cartitem' key={prod.id}>
+                        <img
+                          src={prod.image}
+                          className='cartItemImg'
+                          alt={prod.name}
+                        />
+                        <div className='cartItemDetail'>
+                          <span>{prod.name}</span>
+                          <span>₹ {prod.price.split('.')[0]}</span>
+                        </div>
+                        <AiFillDelete
+                          fontSize='20px'
+                          style={{ cursor: 'pointer' }}
+                          onClick={() =>
+                            dispatch({
+                              type: 'REMOVE_FROM_CART',
+                              payload: prod
+                            })
+                          }
+                        />
+                      </span>
+                    ))}
+                    <Link to='/cart'>
+                      <Button style={{ width: '95%', margin: '0 10px' }}>
+                        Go To Cart
+                      </Button>
+                    </Link>
+                  </>
+                ) : (
+                  <span style={{ padding: 10 }}>Cart is Empty!</span>
+                )}
               </Dropdown.Menu>
             </Dropdown>
           </Nav>
