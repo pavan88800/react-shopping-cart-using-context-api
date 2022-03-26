@@ -15,7 +15,8 @@ import { AiFillDelete } from 'react-icons/ai'
 const NavList = () => {
   const {
     state: { cart },
-    dispatch
+    dispatch,
+    productDispatch
   } = useContext(Cart)
 
   return (
@@ -31,6 +32,12 @@ const NavList = () => {
               type='text'
               className='m-auto'
               placeholder='Search Products'
+              onChange={e =>
+                productDispatch({
+                  type: 'FILTER_BY_SEARCH',
+                  payload: e.target.value
+                })
+              }
             />
           </Navbar.Text>
           <Nav>

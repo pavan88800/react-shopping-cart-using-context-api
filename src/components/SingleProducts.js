@@ -7,7 +7,6 @@ const SingleProducts = ({ product }) => {
     dispatch
   } = useContext(Cart)
 
-  console.log(cart, 'cart')
   return (
     <div className='products'>
       <Card>
